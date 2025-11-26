@@ -4,16 +4,24 @@ import NewProject from "./Components/NewProject.jsx";
 import NoProject from "./Components/NoProject.jsx";
 
 function App() {
-  const [newProject, setNewProject] = useState(false);
+  const [isNewProject, setIsNewProject] = useState(false);
+  const [newProject, setNewProject] = useState([]);
 
-  function handleClick() {
-    setNewProject(true);
+  function handleStartProject() {
+    setIsNewProject(true);
+  }
+  function cancelNewProject() {
+    setIsNewProject(false);
   }
 
   return (
     <main className="h-screen my-8 flex gap-8">
-      <SideBar onClick={handleClick} />
-      {newProject ? <NewProject /> : <NoProject onClick={handleClick}/>}
+      <SideBar onClick={handleStartProject} projects={newProject} />
+      {isNewProject ? (
+        <NewProject onCancel={cancelNewProject} onSave={setNewProject} />
+      ) : (
+        <NoProject onClick={handleStartProject} />
+      )}
     </main>
   );
 }
