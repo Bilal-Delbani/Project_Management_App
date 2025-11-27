@@ -3,7 +3,7 @@ import { useRef } from "react";
 import Input from "./Input.jsx";
 import ErrorDialog from "./ErrorDialog.jsx";
 
-export default function NewProject({ onCancel, onSave }) {
+export default function NewProject({ id, onCancel, onSave }) {
   const dialogRef = useRef();
 
   const titleRef = useRef();
@@ -19,6 +19,7 @@ export default function NewProject({ onCancel, onSave }) {
       dialogRef.current.open();
     } else {
       const project = {
+        id: id,
         title: title,
         description: description,
         date: date,

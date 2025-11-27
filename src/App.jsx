@@ -2,26 +2,49 @@ import { useState } from "react";
 import SideBar from "./Components/SideBar.jsx";
 import NewProject from "./Components/NewProject.jsx";
 import NoProject from "./Components/NoProject.jsx";
+import Tasks from "./Components/Tasks.jsx";
 
 function App() {
-  const [isNewProject, setIsNewProject] = useState(false);
+  const [isNewProject, setIsNewProject] = useState(-2);
+  // -2 : no project
+  // -1 : new project is made
+  // else: index : selected project
   const [newProject, setNewProject] = useState([]);
 
-  function handleStartProject() {
-    setIsNewProject(true);
-  }
   function cancelNewProject() {
-    setIsNewProject(false);
+    setIsNewProject(-2); // return to no project
+  }
+  function handleStartProject() {
+    setIsNewProject(-1); // create new project button is clicked
+  }
+  function handleProjectSelected(index) {
+    setIsNewProject(index); // project is selected
+  }
+
+  let content;
+  if (isNewProject === -2) {
+    content = <NoProject startNewProject={handleStartProject} />;
+  } else if (isNewProject === -1) {
+    content = (
+      <NewProject
+        onCancel={cancelNewProject}
+        onSave={setNewProject}
+        id={newProject.length}
+      />
+    );
+  } else {
+    content = <Tasks project={newProject[isNewProject]} />;
   }
 
   return (
     <main className="h-screen my-8 flex gap-8">
-      <SideBar onClick={handleStartProject} projects={newProject} />
-      {isNewProject ? (
-        <NewProject onCancel={cancelNewProject} onSave={setNewProject} />
-      ) : (
-        <NoProject onClick={handleStartProject} />
-      )}
+      <SideBar
+        projects={newProject}
+        onClick={handleStartProject}
+        onProjectSelected={handleProjectSelected}
+      />
+
+      {content}
     </main>
   );
 }
