@@ -20,6 +20,12 @@ function App() {
   function handleProjectSelected(index) {
     setIsNewProject(index); // project is selected
   }
+  function handleDeleteProject(id) {
+    setIsNewProject(-2);
+    setNewProject((projects) =>
+      projects.filter((project) => project.id !== id)
+    );
+  }
 
   let content;
   if (isNewProject === -2) {
@@ -33,14 +39,21 @@ function App() {
       />
     );
   } else {
-    content = <Tasks project={newProject[isNewProject]} />;
+    content = (
+      <Tasks
+        project={newProject[isNewProject]}
+        deleteProject={handleDeleteProject}
+        projectSelectedId={isNewProject}
+      />
+    );
   }
 
   return (
     <main className="h-screen my-8 flex gap-8">
       <SideBar
         projects={newProject}
-        onClick={handleStartProject}
+        projectSelectedId={isNewProject}
+        onStartProject={handleStartProject}
         onProjectSelected={handleProjectSelected}
       />
 

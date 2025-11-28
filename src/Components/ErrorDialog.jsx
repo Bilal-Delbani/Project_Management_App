@@ -25,7 +25,7 @@ const ErrorDialog = forwardRef(function ErrorDialog({}, ref) {
       <p className="text-stone-600 mb-4">
         Please click the button below to return back!
       </p>
-      <form method="dialog" onSubmit className="mt-4 text-right">
+      <form method="dialog" className="mt-4 text-right">
         <Button>Return</Button>
       </form>
     </dialog>,
