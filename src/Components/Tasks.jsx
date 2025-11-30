@@ -53,15 +53,13 @@ export default function Tasks({
         <ul className="p-4 mt-8 rounded-md bg-stone-100">
           {filteredArray.map((task) => (
             <li key={task.id} className="flex justify-between my-4">
-              <>
-                {task.name}
-                <button
-                  onClick={() => deleteTask(task.id)}
-                  className="text-stone-700 hover:text-red-500"
-                >
-                  Cancel
-                </button>
-              </>
+              <span>{task.name}</span>
+              <button
+                onClick={() => deleteTask(task.id)}
+                className="text-stone-700 hover:text-red-500"
+              >
+                Clear
+              </button>
             </li>
           ))}
         </ul>
