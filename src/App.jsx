@@ -2,7 +2,7 @@ import { useState } from "react";
 import SideBar from "./Components/SideBar.jsx";
 import NewProject from "./Components/NewProject.jsx";
 import NoProject from "./Components/NoProject.jsx";
-import Tasks from "./Components/Tasks.jsx";
+import TasksContainer from "./Components/TasksContainer.jsx";
 
 function App() {
   const [isNewProject, setIsNewProject] = useState(-2);
@@ -10,6 +10,7 @@ function App() {
   // -1 : new project is made
   // else: index : selected project
   const [newProject, setNewProject] = useState([]);
+  const [tasksCollection, setTasksCollection] = useState([]);
 
   function cancelNewProject() {
     setIsNewProject(-2); // return to no project
@@ -20,11 +21,24 @@ function App() {
   function handleProjectSelected(index) {
     setIsNewProject(index); // project is selected
   }
-  function handleDeleteProject(id) {
+  function handleDeleteProject(projectId) {
     setIsNewProject(-2);
     setNewProject((projects) =>
-      projects.filter((project) => project.id !== id)
+      projects.filter((project) => project.id !== projectId)
     );
+  }
+  function saveTasks(enteredTask) {
+    const task = {
+      projectId: isNewProject,
+      id: tasksCollection.length,
+      name: enteredTask,
+    };
+
+    setTasksCollection((prev) => [...prev, task]);
+  }
+
+  function handleDeleteTask(taskId) {
+    setTasksCollection((tasks) => tasks.filter((task) => task.id !== taskId));
   }
 
   let content;
@@ -40,10 +54,12 @@ function App() {
     );
   } else {
     content = (
-      <Tasks
+      <TasksContainer
         project={newProject[isNewProject]}
+        tasks={tasksCollection}
         deleteProject={handleDeleteProject}
-        projectSelectedId={isNewProject}
+        onSaveTask={saveTasks}
+        deleteTask={handleDeleteTask}
       />
     );
   }

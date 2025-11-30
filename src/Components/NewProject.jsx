@@ -15,7 +15,11 @@ export default function NewProject({ id, onCancel, onSave }) {
     const description = descriptionRef.current.value;
     const date = dateRef.current.value;
 
-    if (title.trim() === "" || description.trim() === "" || date.trim() === "") {
+    if (
+      title.trim() === "" ||
+      description.trim() === "" ||
+      date.trim() === ""
+    ) {
       dialogRef.current.open();
     } else {
       const project = {
@@ -29,7 +33,7 @@ export default function NewProject({ id, onCancel, onSave }) {
       titleRef.current.value = "";
       descriptionRef.current.value = "";
       dateRef.current.value = "";
-      
+
       onCancel();
     }
   }
