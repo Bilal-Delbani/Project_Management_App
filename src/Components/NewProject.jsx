@@ -1,9 +1,14 @@
-import { useRef } from "react";
+import { useRef, useContext } from "react";
+import { ProjectManagementContext } from "../contexts/project-management-context.jsx";
 
 import Input from "./Input.jsx";
 import ErrorDialog from "./ErrorDialog.jsx";
 
-export default function NewProject({ id, onCancel, onSave }) {
+export default function NewProject() {
+  const { newProject, onSave, cancelNewProject } = useContext(
+    ProjectManagementContext
+  );
+  const id = newProject.length;
   const dialogRef = useRef();
 
   const titleRef = useRef();
@@ -28,13 +33,13 @@ export default function NewProject({ id, onCancel, onSave }) {
         description: description,
         date: date,
       };
-      onSave((prevProjects) => [...prevProjects, project]);
+      onSave(project);
 
       titleRef.current.value = "";
       descriptionRef.current.value = "";
       dateRef.current.value = "";
 
-      onCancel();
+      cancelNewProject();
     }
   }
   return (
@@ -43,7 +48,7 @@ export default function NewProject({ id, onCancel, onSave }) {
       <menu className="flex items-center justify-end gap-4 my-4">
         <li>
           <button
-            onClick={onCancel}
+            onClick={cancelNewProject}
             className="text-stone-800 hover:text-stone-950"
           >
             Cancel

@@ -1,12 +1,12 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import ErrorDialog from "./ErrorDialog.jsx";
+import { ProjectManagementContext } from "../contexts/project-management-context.jsx";
 
-export default function Tasks({
-  tasksCollection,
-  selectedProjectId,
-  saveTasks,
-  deleteTask,
-}) {
+export default function Tasks({ selectedProjectId }) {
+  const { saveTasks, handleDeleteTask, tasksCollection } = useContext(
+    ProjectManagementContext
+  );
+
   const [enteredTask, setEnteredTask] = useState("");
   const dialogRef = useRef();
 
@@ -55,7 +55,7 @@ export default function Tasks({
             <li key={task.id} className="flex justify-between my-4">
               <span>{task.name}</span>
               <button
-                onClick={() => deleteTask(task.id)}
+                onClick={() => handleDeleteTask(task.id)}
                 className="text-stone-700 hover:text-red-500"
               >
                 Clear

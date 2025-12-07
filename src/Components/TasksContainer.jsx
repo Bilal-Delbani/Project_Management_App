@@ -1,12 +1,14 @@
+import { useContext } from "react";
 import Tasks from "./Tasks.jsx";
+import { ProjectManagementContext } from "../contexts/project-management-context.jsx";
 
-export default function TasksContainer({
-  project,
-  tasks,
-  deleteProject,
-  onSaveTask,
-  deleteTask,
-}) {
+export default function TasksContainer() {
+  const { newProject, isNewProject, handleDeleteProject } = useContext(
+    ProjectManagementContext
+  );
+
+  const project = newProject[isNewProject];
+
   const formattedDate = new Date(project.date).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
@@ -21,7 +23,7 @@ export default function TasksContainer({
             {project.title}
           </h1>
           <button
-            onClick={() => deleteProject(project.id)}
+            onClick={() => handleDeleteProject(project.id)}
             className="text-stone-600 hover:text-stone-950"
           >
             Delete
@@ -34,12 +36,7 @@ export default function TasksContainer({
           {project.description}
         </p>
       </header>
-      <Tasks
-        tasksCollection={tasks}
-        selectedProjectId={project.id}
-        saveTasks={onSaveTask}
-        deleteTask={deleteTask}
-      />
+      <Tasks selectedProjectId={project.id} />
     </div>
   );
 }
